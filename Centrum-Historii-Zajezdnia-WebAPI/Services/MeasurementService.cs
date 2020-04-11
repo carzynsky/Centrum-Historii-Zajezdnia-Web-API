@@ -1,4 +1,5 @@
 ﻿using Centrum_Historii_Zajezdnia_WebAPI.Models;
+using Centrum_Historii_Zajezdnia_WebAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,18 +8,21 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
-    public class MeasurementService:IMeasurementService
+    public class MeasurementService : IMeasurementService
     {
-        MonitoringContext _context;
-        public MeasurementService(MonitoringContext context)
+        public IUnitOfWork UnitOfWork { get; private set; }
+        public MeasurementService(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            UnitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Metoda zwraca wszystkie pomiary
+        /// </summary>
+        /// <returns></returns>
         public List<Measurement> GetAll()
         {
-            var measurement = _context.Measurement.Include(s => s.Sensors).ToList();
-            return measurement;
+            return UnitOfWork.MeasurementRepository.GetAllMeasurement();
         }
     }
 }

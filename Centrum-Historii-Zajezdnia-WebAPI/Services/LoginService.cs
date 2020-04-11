@@ -1,4 +1,5 @@
 ﻿using Centrum_Historii_Zajezdnia_WebAPI.Models;
+using Centrum_Historii_Zajezdnia_WebAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,28 +8,22 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
-    public class LoginService:ILoginService
+    public class LoginService : ILoginService
     {
-        MonitoringContext _context;
-        public LoginService(MonitoringContext context)
+        public IUnitOfWork UnitOfWork { get; private set; }
+        public LoginService(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            UnitOfWork = unitOfWork;
         }
 
-        public DbSet<Users> Get()
+        public List<Users> Get()
         {
-            var _users = _context.Users;
-            return _users;
+            return UnitOfWork.LoginRepository.GetAllUsers();
         }
 
-        public Response SigningIn(Users user)
+        public Response UserSignin(Users user)
         {
-            var _user = _context.Users.Where(x => x.Login.Equals(user.Login) && x.Password.Equals(user.Password)).FirstOrDefault();
-
-            if (_user == null)
-                return new Response { Status = "Error", Message = "Invalid User" };
-            else
-                return new Response { Status = "Success", Message = "Login Succesfully" };
+            return UnitOfWork.LoginRepository.Response(user);
         }
     }
 }

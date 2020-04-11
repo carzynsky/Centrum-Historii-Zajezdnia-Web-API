@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
 {
-
     [EnableCors("AllowMyOrigin")]
     [Route("api/measurement")]
     [ApiController]

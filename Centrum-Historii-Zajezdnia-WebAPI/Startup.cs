@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Centrum_Historii_Zajezdnia_WebAPI.Models;
+using Centrum_Historii_Zajezdnia_WebAPI.Repositories;
 using Centrum_Historii_Zajezdnia_WebAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,17 +29,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var server = Configuration["DBServer"] ?? "DESKTOP-U4VRK31";
-            //var port = Configuration["DBPort"] ?? "44340";
-            //var user = Configuration["DbUser"] ?? "sa";
-            //var password = Configuration["DBPassword"] ?? "arek";
-            //var database = Configuration["Database"] ?? "Monitoring";
-
-            // services.AddDbContext<MonitoringContext>(options => options.UseSqlServer(
-            // $"Server={server}, {port}; Initial Catalog={database}; User ID={user}; Password={password}"  ));
-
             var connection = @"Server=DESKTOP-U4VRK31;Database=Monitoring;Trusted_Connection=True;";
             services.AddDbContext<MonitoringContext>(options => options.UseSqlServer(connection));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IMeasurementService, MeasurementService>();
             services.AddControllers();
@@ -49,7 +42,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowMyOrigin",
-                builder => builder.WithOrigins("http://localhost:3000"));
+                builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
             });
         }
 
@@ -57,7 +50,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-           // app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

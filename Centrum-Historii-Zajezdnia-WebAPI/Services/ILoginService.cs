@@ -9,7 +9,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
     public interface ILoginService
     {
-        Response SigningIn(Users user);
-        DbSet<Users> Get();
+        Response UserSignin(Users user);
+        List<Users> Get();
     }
 }
