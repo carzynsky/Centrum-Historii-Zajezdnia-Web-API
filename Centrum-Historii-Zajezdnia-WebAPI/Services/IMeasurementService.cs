@@ -10,5 +10,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
     public interface IMeasurementService
     {
         List<Measurement> GetAll();
+        List<float> GetAverageTemperatureByEachMonth();
     }
 }

@@ -35,5 +35,17 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
             var _measurement = _service.GetAll();
             return Ok(_measurement);
         }
+
+        /// <summary>
+        /// Pobranie średnich temperatur dla każdego miesiąca
+        /// </summary>
+        /// <returns></returns>
+        [Route("averageByMonth")]
+        [HttpGet]
+        public IActionResult GetAverageTemperatureByEachMonth()
+        {
+            var _average = _service.GetAverageTemperatureByEachMonth();
+            return Ok(_average);
+        }
     }
 }
