@@ -9,5 +9,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Models
     {
         public string Status{ get; set; }
         public string Message { get; set; }
+        public string Function { get; set; }
     }
 }

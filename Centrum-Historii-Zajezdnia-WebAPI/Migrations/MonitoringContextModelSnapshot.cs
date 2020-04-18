@@ -60,6 +60,21 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                     b.ToTable("Sensors");
                 });
 
+            modelBuilder.Entity("Centrum_Historii_Zajezdnia_WebAPI.Models.UserFunction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Function")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserFunction");
+                });
+
             modelBuilder.Entity("Centrum_Historii_Zajezdnia_WebAPI.Models.Users", b =>
                 {
                     b.Property<int>("Id")
@@ -75,7 +90,12 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserFunctionId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserFunctionId");
 
                     b.ToTable("Users");
                 });
@@ -85,6 +105,15 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                     b.HasOne("Centrum_Historii_Zajezdnia_WebAPI.Models.Sensors", "Sensors")
                         .WithMany("Measurement")
                         .HasForeignKey("SensorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Centrum_Historii_Zajezdnia_WebAPI.Models.Users", b =>
+                {
+                    b.HasOne("Centrum_Historii_Zajezdnia_WebAPI.Models.UserFunction", "UserFunction")
+                        .WithMany("Users")
+                        .HasForeignKey("UserFunctionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

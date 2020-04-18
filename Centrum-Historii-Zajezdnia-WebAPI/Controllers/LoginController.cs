@@ -32,7 +32,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var users = _service.Get();
+            var users = _service.GetAllUsers();
             return Ok(users);
         }
 

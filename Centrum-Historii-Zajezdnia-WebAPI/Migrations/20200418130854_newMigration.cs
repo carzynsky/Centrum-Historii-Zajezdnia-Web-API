@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
 {
-    public partial class firstMigration : Migration
+    public partial class newMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,17 +21,16 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "UserFunction",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Login = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false)
+                    Function = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_UserFunction", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,10 +55,36 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Login = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    UserFunctionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_UserFunction_UserFunctionId",
+                        column: x => x.UserFunctionId,
+                        principalTable: "UserFunction",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Measurement_SensorId",
                 table: "Measurement",
                 column: "SensorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_UserFunctionId",
+                table: "Users",
+                column: "UserFunctionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -72,6 +97,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sensors");
+
+            migrationBuilder.DropTable(
+                name: "UserFunction");
         }
     }
 }

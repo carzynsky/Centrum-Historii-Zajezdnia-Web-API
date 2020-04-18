@@ -18,12 +18,19 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 
         public List<Users> Get()
         {
-            return UnitOfWork.LoginRepository.GetAllUsers();
+            var users =  UnitOfWork.LoginRepository.GetAll();
+            return users;
         }
+
 
         public Response UserSignin(Users user)
         {
             return UnitOfWork.LoginRepository.Response(user);
+        }
+
+        public List<Users> GetAllUsers()
+        {
+            return UnitOfWork.LoginRepository.GetAllUsersWithInfo();
         }
     }
 }

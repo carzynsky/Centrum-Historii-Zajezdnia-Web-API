@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
-    public class MeasurementRepository : MonitoringGeneric<MeasurementRepository>, IMeasurementRepository
+    public class MeasurementRepository : MonitoringGeneric<Measurement>, IMeasurementRepository
     {
         private readonly MonitoringContext _context;
 

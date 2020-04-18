@@ -8,7 +8,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
     public interface ILoginRepository
     {
-        List<Users> GetAllUsers();
+        List<Users> GetAllUsersWithInfo();
         Response Response(Users user);
     }
 }

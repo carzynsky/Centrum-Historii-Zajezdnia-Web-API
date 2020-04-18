@@ -11,5 +11,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
     {
         Response UserSignin(Users user);
         List<Users> Get();
+        List<Users> GetAllUsers();
     }
 }
