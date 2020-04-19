@@ -120,9 +120,29 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             throw new NotImplementedException();
         }
 
-        public int GetNumberOfAllMeasurement()
+        public int GetNumberOfAllMeasurement(int id)
         {
-            return UnitOfWork.MeasurementRepository.GetNumberOfAllMeasurement();
+            return UnitOfWork.MeasurementRepository.GetNumberOfAllMeasurement(id);
+        }
+
+        public int GetNumberOfMeasurementThisMonth(int id)
+        {
+            return UnitOfWork.MeasurementRepository.GetNumberOfMeasurementThisMonth(id);
+        }
+
+        public int GetNumberOfMeasurementToday(int id)
+        {
+            return UnitOfWork.MeasurementRepository.GetNumberOfMeasurementToday(id);
+        }
+
+        /// <summary>
+        /// Metoda zwraca wszystkie pomiary dla określonego czujnika
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<Measurement> GetAll(int id)
+        {
+            return UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
         }
     }
 }

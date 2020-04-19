@@ -9,6 +9,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
     public interface IMeasurementRepository
     {
         List<Measurement> GetAllMeasurement(int id);
-        int GetNumberOfAllMeasurement();
+        int GetNumberOfAllMeasurement(int id);
+        int GetNumberOfMeasurementThisMonth(int id);
+        int GetNumberOfMeasurementToday(int id);
     }
 }
