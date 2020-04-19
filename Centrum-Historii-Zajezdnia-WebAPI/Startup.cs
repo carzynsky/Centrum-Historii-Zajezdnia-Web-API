@@ -34,6 +34,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ILoginService, LoginService>();
             services.AddTransient<IMeasurementService, MeasurementService>();
+            services.AddTransient<ISensorsService, SensorsService>();
             services.AddControllers();
 
             services.AddControllers().AddNewtonsoftJson(options =>

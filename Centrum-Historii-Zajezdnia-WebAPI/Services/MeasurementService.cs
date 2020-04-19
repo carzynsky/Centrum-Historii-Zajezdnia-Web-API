@@ -23,12 +23,17 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// <returns></returns>
         public List<Measurement> GetAll()
         {
-            return UnitOfWork.MeasurementRepository.GetAllMeasurement();
+            return UnitOfWork.MeasurementRepository.GetAll();
         }
 
-        public List<float> GetAverageTemperatureByEachMonth()
+        /// <summary>
+        /// Metoda zwraca średnie pomiary temperatur dla każdego miesiąca dla podanego jako parametr czujnika
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<float> GetAverageTemperatureByEachMonth(int id)
         {
-            var all = UnitOfWork.MeasurementRepository.GetAllMeasurement();
+            var all = UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
             float[,] table = new float[,] {
                 {0,0},
                 {0,0},
@@ -64,6 +69,60 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             }
             return myList;
             
+        }
+
+        public List<float> GetAverageHumidityByEachMonth(int id)
+        {
+            var all = UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
+            float[,] table = new float[,] {
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0},
+                {0,0}
+            };
+
+            foreach (var item in all)
+            {
+                var tmp = item.DateTime.Month - 1;
+                table[tmp, 0] += item.Humidity;
+                table[tmp, 1] += 1;
+            }
+            List<float> myList = new List<float>();
+            for (int i = 0; i < table.GetLength(0); i++)
+            {
+                if (table[i, 1] != 0)
+                {
+                    myList.Add((table[i, 0] / table[i, 1]));
+                }
+                else
+                {
+                    myList.Add(table[i, 0]);
+                }
+            }
+            return myList;
+        }
+
+        public List<float> GetAverageTemperatureLastWeek(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<float> GetAverageHumidityLastWeek(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetNumberOfAllMeasurement()
+        {
+            return UnitOfWork.MeasurementRepository.GetNumberOfAllMeasurement();
         }
     }
 }

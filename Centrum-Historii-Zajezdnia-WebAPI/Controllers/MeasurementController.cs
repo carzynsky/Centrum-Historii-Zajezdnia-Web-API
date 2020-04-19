@@ -26,7 +26,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         }
 
         /// <summary>
-        /// Gets all measurement from database - only for testing
+        /// Pobranie wszystkich pomiarów
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -37,15 +37,40 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         }
 
         /// <summary>
-        /// Pobranie średnich temperatur dla każdego miesiąca
+        /// Pobranie średnich temperatur każdego miesiąca dla czujnika określonego w routingu
         /// </summary>
         /// <returns></returns>
-        [Route("averageByMonth")]
+        [Route("averageTemperatureByMonth/{id:int}")]
         [HttpGet]
-        public IActionResult GetAverageTemperatureByEachMonth()
+        public IActionResult GetAverageTemperatureByEachMonth([FromRoute] int id)
         {
-            var _average = _service.GetAverageTemperatureByEachMonth();
+            var _average = _service.GetAverageTemperatureByEachMonth(id);
             return Ok(_average);
+        }
+
+        /// <summary>
+        /// Pobranie średnich wilgotności powietrza każdego miesiąca w 2020 roku dla czujnika określonego w routingu
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("averageHumidityByMonth/{id:int}")]
+        [HttpGet]
+        public IActionResult GetAverageHumidityByEachMonth([FromRoute] int id)
+        {
+            var _average = _service.GetAverageHumidityByEachMonth(id);
+            return Ok(_average);
+        }
+
+        /// <summary>
+        /// Metoda zwraca liczbę wszystkich pomiarów
+        /// </summary>
+        /// <returns></returns>
+        [Route("numberOfAllMeasurement")]
+        [HttpGet]
+        public IActionResult GetNumberOfAllMeasurement() 
+        {
+            var _numberOfMeasurement = _service.GetNumberOfAllMeasurement();
+            return Ok(_numberOfMeasurement);
         }
     }
 }

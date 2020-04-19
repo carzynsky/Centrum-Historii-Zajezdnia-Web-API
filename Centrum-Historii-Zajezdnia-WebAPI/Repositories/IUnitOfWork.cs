@@ -9,6 +9,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
     {
         LoginRepository LoginRepository { get; }
         MeasurementRepository MeasurementRepository { get; }
+        SensorsRepository SensorsRepository { get; }
         void save();
     }
 }

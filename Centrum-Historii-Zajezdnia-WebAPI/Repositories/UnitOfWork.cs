@@ -11,6 +11,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
         private readonly MonitoringContext _context;
         private LoginRepository loginRepository;
         private MeasurementRepository measurementRepository;
+        private SensorsRepository sensorsRepository;
 
         public UnitOfWork(MonitoringContext context)
         {
@@ -30,6 +31,14 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             get
             {
                 return measurementRepository = measurementRepository ?? new MeasurementRepository(_context);
+            }
+        }
+
+        public SensorsRepository SensorsRepository
+        {
+            get
+            {
+                return sensorsRepository = sensorsRepository ?? new SensorsRepository(_context);
             }
         }
 

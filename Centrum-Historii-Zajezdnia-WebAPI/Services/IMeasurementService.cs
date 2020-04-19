@@ -10,6 +10,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
     public interface IMeasurementService
     {
         List<Measurement> GetAll();
-        List<float> GetAverageTemperatureByEachMonth();
+        List<float> GetAverageTemperatureByEachMonth(int id);
+        List<float> GetAverageHumidityByEachMonth(int id);
+        List<float> GetAverageTemperatureLastWeek(int id);
+        List<float> GetAverageHumidityLastWeek(int id);
+        int GetNumberOfAllMeasurement();
     }
 }
