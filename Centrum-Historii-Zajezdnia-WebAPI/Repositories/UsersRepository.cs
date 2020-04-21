@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
-    public class LoginRepository : MonitoringGeneric<Users>, ILoginRepository
+    public class UsersRepository : MonitoringGeneric<Users>, IUsersRepository
     {
         private readonly MonitoringContext _context;
 
-        public LoginRepository(MonitoringContext context) : base(context)
+        public UsersRepository(MonitoringContext context) : base(context)
         {
             _context = context;
         }
@@ -21,10 +21,31 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             return _context.Users.Include(x => x.UserFunction).ToList();
         }
 
+        public bool EditUser(int id, Users user)
+        {
+            if (user.Id != id)
+                return false;
+
+            var _user = _context.Users.Where(x => x.Id.Equals(user.Id)).Single();
+            if (_user == null)
+            {
+                return false;
+            }
+            else
+            {
+                _user.Login = user.Login;
+                _user.Password = user.Password;
+                _user.UserFunctionId = user.UserFunctionId;
+                _context.Users.Update(_user);
+                _context.SaveChanges();
+                return true;
+            }
+        }
+
         public Response Response(Users user)
         {
             var _user = _context.Users.Where(x => x.Login.Equals(user.Login) && x.Password.Equals(user.Password)).FirstOrDefault();
-            if(_user == null)
+            if (_user == null)
             {
                 return new Response { Status = "Error", Message = "Invalid User", Function = "null" };
             }
@@ -48,6 +69,27 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
                 }
 
             }
+        }
+
+        public bool DeleteUser(int id)
+        {
+            var _user = _context.Users.Where(x => x.Id.Equals(id)).Single();
+            if(_user == null)
+            {
+                return false;
+            }
+            else
+            {
+                _context.Users.Remove(_user);
+                _context.SaveChanges();
+                return true;
+            }
+        }
+
+        public void CreateUser(Users user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
         }
     }
 }

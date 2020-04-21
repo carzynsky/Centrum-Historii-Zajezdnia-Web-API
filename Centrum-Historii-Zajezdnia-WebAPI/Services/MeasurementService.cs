@@ -23,7 +23,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// <returns></returns>
         public List<Measurement> GetAll()
         {
-            return UnitOfWork.MeasurementRepository.GetAll();
+            return UnitOfWork.MeasurementRepository.GetAllOfMeasurement();
         }
 
         /// <summary>

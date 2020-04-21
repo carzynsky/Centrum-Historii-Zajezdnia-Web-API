@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
-    public interface ILoginRepository
+    public interface IUsersRepository
     {
         List<Users> GetAllUsersWithInfo();
         Response Response(Users user);
+        bool EditUser(int id, Users user);
+        bool DeleteUser(int id);
+        void CreateUser(Users user);
     }
 }

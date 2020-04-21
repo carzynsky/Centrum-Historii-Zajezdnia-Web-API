@@ -16,6 +16,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             _context = context;
         }
 
+        public List<Measurement> GetAllOfMeasurement()
+        {
+            return _context.Measurement.Include(s => s.Sensors).ToList();
+        }
         public List<Measurement> GetAllMeasurement(int id)
         {
             return _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime.Year.Equals(2020)).Include(s => s.Sensors).ToList();

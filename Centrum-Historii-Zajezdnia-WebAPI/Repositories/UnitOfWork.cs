@@ -6,24 +6,16 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
-    public class UnitOfWork:IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly MonitoringContext _context;
-        private LoginRepository loginRepository;
         private MeasurementRepository measurementRepository;
         private SensorsRepository sensorsRepository;
+        private UsersRepository usersRepository;
 
         public UnitOfWork(MonitoringContext context)
         {
             _context = context;
-        }
-
-        public LoginRepository LoginRepository
-        {
-            get
-            {
-                return loginRepository = loginRepository ?? new LoginRepository(_context);
-            }
         }
 
         public MeasurementRepository MeasurementRepository
@@ -42,7 +34,15 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             }
         }
 
-        public void save()
+        public UsersRepository UsersRepository
+        { 
+            get
+            {
+                return usersRepository = usersRepository ?? new UsersRepository(_context);
+            }
+        }
+
+        public void Save()
         {
             _context.SaveChanges();
         }

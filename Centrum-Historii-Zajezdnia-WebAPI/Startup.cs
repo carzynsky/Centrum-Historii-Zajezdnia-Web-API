@@ -32,7 +32,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             var connection = @"Server=DESKTOP-U4VRK31;Database=Monitoring;Trusted_Connection=True;";
             services.AddDbContext<MonitoringContext>(options => options.UseSqlServer(connection));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IMeasurementService, MeasurementService>();
             services.AddTransient<ISensorsService, SensorsService>();
             services.AddControllers();
@@ -43,7 +43,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowMyOrigin",
-                builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
+                builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
             });
         }
 

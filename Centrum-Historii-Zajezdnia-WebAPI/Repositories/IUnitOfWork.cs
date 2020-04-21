@@ -7,9 +7,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
     public interface IUnitOfWork
     {
-        LoginRepository LoginRepository { get; }
         MeasurementRepository MeasurementRepository { get; }
         SensorsRepository SensorsRepository { get; }
-        void save();
+        UsersRepository UsersRepository { get; }
+        void Save();
     }
 }
