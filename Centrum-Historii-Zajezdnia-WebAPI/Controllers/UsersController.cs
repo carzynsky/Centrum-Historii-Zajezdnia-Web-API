@@ -37,7 +37,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Route("/login")]
+        [Route("login")]
         [HttpPost]
         public Response Login(Users user)
         {
