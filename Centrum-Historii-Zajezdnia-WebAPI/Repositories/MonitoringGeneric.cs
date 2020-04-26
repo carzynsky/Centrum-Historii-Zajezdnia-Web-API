@@ -1,4 +1,5 @@
 ﻿using Centrum_Historii_Zajezdnia_WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             _context = context;
         }
 
-        public void Create(T entity)
+        public async Task Create(T entity)
         {
-            _context.Set<T>().Add(entity);
+            await _context.Set<T>().AddAsync(entity);
         }
 
         public void DeleteById(int id)
@@ -31,19 +32,19 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            return _context.Set<T>().Find(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public void Update(T entity)

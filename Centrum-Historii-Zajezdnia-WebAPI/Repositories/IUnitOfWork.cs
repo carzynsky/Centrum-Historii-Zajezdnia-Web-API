@@ -10,6 +10,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
         MeasurementRepository MeasurementRepository { get; }
         SensorsRepository SensorsRepository { get; }
         UsersRepository UsersRepository { get; }
+        UserFunctionsRepository UserFunctionsRepository { get; }
+        LoginHistoryRepository LoginHistoryRepository { get; }
         void Save();
     }
 }

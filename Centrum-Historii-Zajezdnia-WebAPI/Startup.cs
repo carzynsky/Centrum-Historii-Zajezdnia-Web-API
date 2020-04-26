@@ -35,6 +35,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IMeasurementService, MeasurementService>();
             services.AddTransient<ISensorsService, SensorsService>();
+            services.AddTransient<ILoginHistoryService, LoginHistoryService>();
             services.AddControllers();
 
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -43,7 +44,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowMyOrigin",
-                builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod());
+                builder => builder.WithOrigins("http://localhost:3000", "https://carzynsky.github.io").AllowAnyHeader().AllowAnyMethod());
             });
         }
 

@@ -1,4 +1,5 @@
 ﻿using Centrum_Historii_Zajezdnia_WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,13 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Dostęp do sensora o danej nazwie
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Sensors> GetSensorByName(string name)
+        {
+            return await _context.Sensors.Where(x => x.SensorName.Equals(name)).SingleOrDefaultAsync();
+        }
     }
 }

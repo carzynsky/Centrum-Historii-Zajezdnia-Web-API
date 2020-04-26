@@ -4,14 +4,16 @@ using Centrum_Historii_Zajezdnia_WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
 {
     [DbContext(typeof(MonitoringContext))]
-    partial class MonitoringContextModelSnapshot : ModelSnapshot
+    [Migration("20200426130216_newMigration")]
+    partial class newMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

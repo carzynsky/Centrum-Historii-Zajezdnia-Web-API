@@ -8,10 +8,11 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
     public interface IUsersService
     {
-        List<Users> GetAllUsers();
-        Response UserSignin(Users user);
-        bool IsUpdateSuccessfull(int id, Users user);
-        bool IsDeleteSuccessfull(int id);
-        void CreateUser(Users user);
+        Task<IEnumerable<Users>> GetAllUsers();
+        Task<Response> UserSignin(Users user);
+        Task<bool> IsUpdateSuccessfull(int id, Users user);
+        Task<bool> IsDeleteSuccessfull(int id);
+        Task<bool> IsCreateSuccessfull(Users user);
+        Task<List<UserFunction>> GetAllFunctions();
     }
 }

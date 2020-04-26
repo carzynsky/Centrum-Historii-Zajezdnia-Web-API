@@ -16,5 +16,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Models
         public DbSet<Sensors> Sensors { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<UserFunction> UserFunction { get; set; }
+        public DbSet<LoginHistory> LoginHistory { get; set; }
     }
 }

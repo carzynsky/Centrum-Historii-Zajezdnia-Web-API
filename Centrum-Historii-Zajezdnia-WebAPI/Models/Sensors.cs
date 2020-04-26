@@ -11,6 +11,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Models
         [Key]
         public int Id { get; set; }
         public string SensorName { get; set; }
+        public string IpAddress{ get; set; }
         public List<Measurement> Measurement { get; set; }
     }
 }

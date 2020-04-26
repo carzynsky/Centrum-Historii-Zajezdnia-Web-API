@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Centrum_Historii_Zajezdnia_WebAPI.Models;
 using Centrum_Historii_Zajezdnia_WebAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
 {
-    [EnableCors("AllowMyOrigin")]
+    [EnableCors("AllowLocalOrigin")]
+    //[Authorize]
     [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -22,14 +24,15 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         }
 
         /// <summary>
-        /// Zwracanie wszystkich uzytkownikow w bazie
+        /// Pobranie wszystkich użytkowników wraz z ich funkcjami
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Get()
+        //[Authorize]
+        public async Task<ActionResult<List<Users>>> Get()
         {
-            var _users = _service.GetAllUsers();
-            return Ok(_users);
+            var users = await _service.GetAllUsers();
+            return Ok(users);
         }
 
         /// <summary>
@@ -39,24 +42,24 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         /// <returns></returns>
         [Route("login")]
         [HttpPost]
-        public Response Login(Users user)
+        public async Task<Response> Login([FromBody] Users user)
         {
-            var _info = _service.UserSignin(user);
+            var _info = await _service.UserSignin(user);
             return _info;
         }
 
         /// <summary>
-        /// Edytowanie użytkowników 
+        /// Edycja użytkownika
         /// </summary>
         /// <param name="user"></param>
         /// <param name="id"></param>
         /// <returns></returns>
         [Route("{id:int}")]
         [HttpPut]
-        public IActionResult Edit([FromBody] Users user, [FromRoute] int id)
+        public async Task<ActionResult> Edit([FromBody] Users user, [FromRoute] int id)
         {
-            var info = _service.IsUpdateSuccessfull(id, user);
-            if(info)
+            var isEdited = await _service.IsUpdateSuccessfull(id, user);
+            if(isEdited)
             {
                 return NoContent();
             }
@@ -67,22 +70,22 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         }
 
         /// <summary>
-        /// Funkcja usuwająca użytkownika z bazy
+        /// Usunięcie użytkownika o danym id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [Route("{id:int}")]
         [HttpDelete]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            var info = _service.IsDeleteSuccessfull(id);
-            if(info)
+            var isDeleted = await _service.IsDeleteSuccessfull(id);
+            if(isDeleted)
             {
                 return Ok();
             }
             else
             {
-                return Conflict("Couldn't delete!");
+                return Conflict("Nie można usunąć!");
             }
         }
 
@@ -92,10 +95,30 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult CreateNewUser([FromBody] Users user)
+        public async Task<ActionResult> CreateNewUser([FromBody] Users user)
         {
-            _service.CreateUser(user);
-            return Ok();
+            var isCreated = await _service.IsCreateSuccessfull(user);
+            if(isCreated)
+            {
+                return Ok("Dodano użytkownika");
+            }
+            else
+            {
+                return Conflict("Nie można dodać użytkownika!");
+            }
+        }
+
+        /// <summary>
+        /// Pobranie wszystkich możliwych ról użytkowników
+        /// </summary>
+        /// <returns></returns>
+        [Route("functions")]
+        [HttpGet]
+        public async Task<ActionResult<UserFunction>> GetUserFunctions()
+        {
+            var functions = await _service.GetAllFunctions();
+            return Ok(functions);
+            
         }
     }
 }

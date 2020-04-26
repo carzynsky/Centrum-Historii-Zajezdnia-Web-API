@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
-    public interface ISensorsRepository
+    public interface IUserRepository
     {
-        Task<Sensors> GetSensorByName(string name);
+        Task<List<Users>> GetAllUsersWithInfo();
+        Task<Users> FindUserByLoginAndPassword(Users user);
+        Task<Users> FindUserByLogin(string login);
     }
 }

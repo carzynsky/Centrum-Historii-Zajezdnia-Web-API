@@ -7,12 +7,12 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
     public interface IMonitoringGeneric<T> where T : class
     {
-        List<T> GetAll();
+        Task<List<T>> GetAll();
         IQueryable<T> Get();
-        T GetById(int id);
+        Task<T> GetById(int id);
         void DeleteById(int id);
         void Update(T entity);
-        void Create(T entity);
-        void Save();
+        Task Create(T entity);
+        Task SaveAsync();
     }
 }

@@ -8,6 +8,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
     public interface ISensorsService
     {
-        List<Sensors> GetAllSensors();
+        Task<List<Sensors>> GetAllSensors();
+        Task<bool> DeleteSensor(int id);
+        Task<bool> EditSensor(int id, Sensors sensor);
+        Task<bool> CreateSensor(Sensors sensor);
     }
 }

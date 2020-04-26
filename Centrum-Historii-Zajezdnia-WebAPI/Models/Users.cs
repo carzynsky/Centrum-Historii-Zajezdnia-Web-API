@@ -20,5 +20,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Models
 
         [ForeignKey("UserFunctionId")]
         public virtual UserFunction UserFunction { get; set; }
+        public List<LoginHistory> LoginHistories { get; set; }
     }
 }

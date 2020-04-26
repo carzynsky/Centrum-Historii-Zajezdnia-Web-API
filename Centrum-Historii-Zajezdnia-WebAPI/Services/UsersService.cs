@@ -15,31 +15,152 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             UnitOfWork = _UnitOfWork;
         }
 
-        public List<Users> GetAllUsers()
+        /// <summary>
+        /// Zwraca wszystkie funkcje/role użytkowników
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<UserFunction>> GetAllFunctions()
         {
-            var _users = UnitOfWork.UsersRepository.GetAllUsersWithInfo();
-            return _users;
+            return await UnitOfWork.UserFunctionsRepository.GetAll();
         }
 
-        public void CreateUser(Users user)
+        /// <summary>
+        /// Zwrócenie wszystkich użytkowników w bazie z rolami
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IEnumerable<Users>> GetAllUsers()
         {
-            UnitOfWork.UsersRepository.CreateUser(user);
+            return await UnitOfWork.UsersRepository.GetAllUsersWithInfo();
         }
 
-        public bool IsDeleteSuccessfull(int id)
+        /// <summary>
+        /// Dodanie użytkownika do bazy i zwrócenie informacji o poprawności operacji
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> IsCreateSuccessfull(Users user)
         {
-            var _delete = UnitOfWork.UsersRepository.DeleteUser(id);
-            return _delete;
+            var alreadyCreated = false; // todo, assumed that newUser is not in db
+            if(alreadyCreated)
+            {
+                return false;
+            }
+            else
+            {
+                Users newUser = new Users()
+                {
+                    Login = user.Login,
+                    Password = user.Password,
+                    UserFunctionId = user.UserFunctionId
+                };
+
+                await UnitOfWork.UsersRepository.Create(newUser);
+                await UnitOfWork.UsersRepository.SaveAsync();
+                return true;
+            }
         }
 
-        public bool IsUpdateSuccessfull(int id, Users user)
+        /// <summary>
+        /// Usunięcie użytkownika o podanym id i zwrócenie informacji o rezultacie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> IsDeleteSuccessfull(int id)
         {
-            var _edit = UnitOfWork.UsersRepository.EditUser(id, user);
-            return _edit;
+            var user = await UnitOfWork.UsersRepository.GetById(id);
+            if(user == null)
+            {
+                return false;
+            }
+            else
+            {
+                UnitOfWork.UsersRepository.DeleteById(id);
+                await UnitOfWork.UsersRepository.SaveAsync();
+                return true;
+            }
         }
-        public Response UserSignin(Users user)
+
+        /// <summary>
+        /// Aktualizacja danych użytkownika i zwrócenie informacji o rezultacie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> IsUpdateSuccessfull(int id, Users user)
         {
-            return UnitOfWork.UsersRepository.Response(user);
+            var _user = await UnitOfWork.UsersRepository.GetById(id);
+            if(user == null || id != _user.Id)
+            {
+                return false;
+            }
+            else
+            {
+                _user.Login = user.Login;
+                _user.Password = user.Password;
+                _user.UserFunctionId = user.UserFunctionId;
+                UnitOfWork.UsersRepository.Update(_user);
+                await UnitOfWork.UsersRepository.SaveAsync();
+                return false;
+            }
+        }
+
+        public async Task<Response> UserSignin(Users user)
+        {
+            var login = await UnitOfWork.UsersRepository.FindUserByLoginAndPassword(user);
+
+            if (login != null)
+            {
+                DateTime date = DateTime.Now;
+                LoginHistory newLogin = new LoginHistory()
+                {
+                    Success = "Ok",
+                    UserLogin = login.Login,
+                    UserPassword = login.Password,
+                    UserId = login.Id,
+                    DateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Kind)
+                };
+                await UnitOfWork.LoginHistoryRepository.Create(newLogin);
+                await UnitOfWork.LoginHistoryRepository.SaveAsync();
+
+                switch (login.UserFunction.Function)
+                {
+                    case "admin":
+                        {
+                            return new Response { Status = "Success", Message = "Logged Successfully", Function = "admin" };
+                        }
+                    case "employee":
+                    default:
+                        {
+                            return new Response { Status = "Success", Message = "Logged Successfully", Function = "employee" };
+                        }
+                }
+            }
+            else
+            {
+                var checkIfUserExists = await UnitOfWork.UsersRepository.FindUserByLogin(user.Login);
+                if (checkIfUserExists != null)
+                {
+                    DateTime date = DateTime.Now;
+                    LoginHistory newLogin = new LoginHistory()
+                    {
+                        Success = "Niepoprawne hasło",
+                        UserLogin = user.Login,
+                        UserPassword = user.Password,
+                        UserId = checkIfUserExists.Id,
+                        DateTime = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second, date.Kind)
+
+                };
+                    await UnitOfWork.LoginHistoryRepository.Create(newLogin);
+                    await UnitOfWork.LoginHistoryRepository.SaveAsync();
+
+                    return new Response { Status = "Error", Message = "Invalid Password!", Function = "null" };
+                }
+                else
+                {              
+                    return new Response { Status = "Error", Message = "Invalid Login", Function = "null" };
+                }
+
+            }
         }
     }
 }
