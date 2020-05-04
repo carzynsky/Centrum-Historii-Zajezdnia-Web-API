@@ -9,14 +9,16 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
     public interface IMeasurementService
     {
-        List<Measurement> GetAll();
-        List<Measurement> GetAll(int id);
-        List<float> GetAverageTemperatureByEachMonth(int id);
-        List<float> GetAverageHumidityByEachMonth(int id);
-        List<float> GetAverageTemperatureLastWeek(int id);
-        List<float> GetAverageHumidityLastWeek(int id);
-        int GetNumberOfAllMeasurement(int id);
-        int GetNumberOfMeasurementThisMonth( int id);
-        int GetNumberOfMeasurementToday(int id);
+        Task<List<Measurement>> GetAll();
+        Task<List<Measurement>> GetAll(int id);
+        Task<List<float>> GetAverageTemperatureByEachMonth(int id);
+        Task<List<float>> GetAverageHumidityByEachMonth(int id);
+        Task<List<float>> GetAverageTemperatureLastWeek(int id);
+        Task<List<float>> GetAverageHumidityLastWeek(int id);
+        Task<List<float>> GetAverageTemperatureLastYears(int id);
+        Task<List<float>> GetAverageHumidityLastYears(int id);
+        Task<int> GetNumberOfAllMeasurement(int id);
+        Task<int> GetNumberOfMeasurementThisMonth(int id);
+        Task<int> GetNumberOfMeasurementToday(int id);
     }
 }

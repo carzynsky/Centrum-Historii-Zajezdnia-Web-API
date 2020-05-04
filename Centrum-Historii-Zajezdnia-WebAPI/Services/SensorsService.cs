@@ -61,6 +61,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             {
                 sensorToEdit.SensorName = sensor.SensorName;
                 sensorToEdit.IpAddress = sensor.IpAddress;
+                sensorToEdit.ExternalIp = sensor.ExternalIp;
+                sensorToEdit.Top = sensor.Top;
+                sensorToEdit.Left = sensor.Left;
                 UnitOfWork.SensorsRepository.Update(sensorToEdit);
                 await UnitOfWork.SensorsRepository.SaveAsync();
                 return true;
@@ -81,7 +84,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
                 Sensors newSensor = new Sensors()
                 { 
                     SensorName = sensor.SensorName,
-                    IpAddress = sensor.IpAddress
+                    IpAddress = sensor.IpAddress,
+                    ExternalIp = sensor.ExternalIp,
+                    Top = sensor.Top,
+                    Left = sensor.Left
                 };
                 await UnitOfWork.SensorsRepository.Create(newSensor);
                 await UnitOfWork.SensorsRepository.SaveAsync();

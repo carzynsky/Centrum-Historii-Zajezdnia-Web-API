@@ -14,7 +14,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SensorName = table.Column<string>(nullable: true),
-                    IpAddress = table.Column<string>(nullable: true)
+                    IpAddress = table.Column<string>(nullable: true),
+                    ExternalIp = table.Column<string>(nullable: true),
+                    Top = table.Column<int>(nullable: false),
+                    Left = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

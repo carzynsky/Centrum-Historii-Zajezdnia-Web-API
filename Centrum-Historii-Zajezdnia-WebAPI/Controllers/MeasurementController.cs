@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Centrum_Historii_Zajezdnia_WebAPI.Models;
 using Centrum_Historii_Zajezdnia_WebAPI.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -30,66 +31,122 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult GetAllMeasurement()
+        public async Task<ActionResult<Measurement>> GetAllMeasurement()
         {
-            var _measurement = _service.GetAll();
-            return Ok(_measurement);
-        }
-
-        [Route("{id:int}")]
-        [HttpGet]
-        public IActionResult GetAllMeasurement([FromRoute]int id)
-        {
-            var _measurement = _service.GetAll(id);
+            var _measurement = await _service.GetAll();
             return Ok(_measurement);
         }
 
         /// <summary>
-        /// Pobranie średnich temperatur każdego miesiąca dla czujnika określonego w routingu
+        /// Pobranie wszystkich pomiarów dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("{id:int}")]
+        [HttpGet]
+        public async Task<ActionResult<Measurement>> GetAllMeasurement([FromRoute]int id)
+        {
+            var _measurement = await _service.GetAll(id);
+            return Ok(_measurement);
+        }
+
+        /// <summary>
+        /// Pobranie średnich temperatur każdego miesiąca dla czujnika o podanym id
         /// </summary>
         /// <returns></returns>
         [Route("{id:int}/averageTemperatureByMonth")]
         [HttpGet]
-        public IActionResult GetAverageTemperatureByEachMonth([FromRoute] int id)
+        public async Task<ActionResult<Measurement>> GetAverageTemperatureByEachMonth([FromRoute] int id)
         {
-            var _average = _service.GetAverageTemperatureByEachMonth(id);
+            var _average = await _service.GetAverageTemperatureByEachMonth(id);
             return Ok(_average);
         }
 
         /// <summary>
-        /// Pobranie średnich wilgotności powietrza każdego miesiąca w 2020 roku dla czujnika określonego w routingu
+        /// Pobranie średnich temperatur z ostanich 7 dni dla czujnika o podanym id
+        /// </summary>
+        /// <returns></returns>
+        [Route("{id:int}/averageTemperatureLastWeek")]
+        [HttpGet]
+        public async Task<ActionResult<Measurement>> GetAverageTemperatureLastWeek([FromRoute] int id)
+        {
+            var _average = await _service.GetAverageTemperatureLastWeek(id);
+            return Ok(_average);
+        }
+
+        /// <summary>
+        /// Pobranie średnich temperatur dla ostatnich lat dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("{id:int}/averageTemperatureLastYears")]
+        [HttpGet]
+        public async Task<ActionResult<Measurement>> GetAverageTemperatureLastYears([FromRoute] int id)
+        {
+            var _average = await _service.GetAverageTemperatureLastYears(id);
+            return Ok(_average);
+        }
+
+
+        /// <summary>
+        /// Pobranie średnich wilgotności powietrza każdego miesiąca aktualnego roku dla czujnika o podanym
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [Route("{id:int}/averageHumidityByMonth")]
         [HttpGet]
-        public IActionResult GetAverageHumidityByEachMonth([FromRoute] int id)
+        public async Task<ActionResult<Measurement>> GetAverageHumidityByEachMonth([FromRoute] int id)
         {
-            var _average = _service.GetAverageHumidityByEachMonth(id);
+            var _average = await _service.GetAverageHumidityByEachMonth(id);
             return Ok(_average);
         }
 
         /// <summary>
-        /// Pobranie liczby wszystkich dokonanych pomiarów dla danego czujnika określonego w routingu
+        /// Pobranie średnich wilgotności powietrza z ostanich 7 dni dla czujnika o podanym id
+        /// </summary>
+        /// <returns></returns>
+        [Route("{id:int}/averageHumidityLastWeek")]
+        [HttpGet]
+        public async Task<ActionResult<Measurement>> GetAverageHumidityLastWeek([FromRoute] int id)
+        {
+            var _average = await _service.GetAverageHumidityLastWeek(id);
+            return Ok(_average);
+        }
+
+        /// <summary>
+        /// Pobranie średnich wilgotności powietrza dla ostatnich lat dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("{id:int}/averageHumidityLastYears")]
+        [HttpGet]
+        public async Task<ActionResult<Measurement>> GetAverageHumidityLastYears([FromRoute] int id)
+        {
+            var _average = await _service.GetAverageHumidityLastYears(id);
+            return Ok(_average);
+        }
+
+        /// <summary>
+        /// Pobranie liczby wszystkich dokonanych pomiarów dla danego czujnika o podanym id
         /// </summary>
         /// <returns></returns>
         [Route("{id:int}/numberOfAllMeasurement")]
         [HttpGet]
-        public IActionResult GetNumberOfAllMeasurement([FromRoute] int id) 
+        public async Task<ActionResult> GetNumberOfAllMeasurement([FromRoute] int id) 
         {
-            var _numberOfMeasurement = _service.GetNumberOfAllMeasurement(id);
+            var _numberOfMeasurement = await _service.GetNumberOfAllMeasurement(id);
             return Ok(_numberOfMeasurement);
         }
 
         /// <summary>
-        /// Pobranie liczby pomiarów wykonanych w tym miesiącu dla danego czujnika określonego w routingu
+        /// Pobranie liczby pomiarów wykonanych w tym miesiącu dla danego czujnika o podanym id
         /// </summary>
         /// <returns></returns>
         [Route("{id:int}/numberOfMeasurementThisMonth")]
         [HttpGet]
-        public IActionResult GetNumberOfMeasurementThisMonth([FromRoute] int id)
+        public async Task<ActionResult> GetNumberOfMeasurementThisMonth([FromRoute] int id)
         {
-            var _numberOfMeasurementThisMonth = _service.GetNumberOfMeasurementThisMonth(id);
+            var _numberOfMeasurementThisMonth = await _service.GetNumberOfMeasurementThisMonth(id);
             return Ok(_numberOfMeasurementThisMonth);
         }
 
@@ -99,9 +156,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         /// <returns></returns>
         [Route("{id:int}/numberOfMeasurementToday")]
         [HttpGet]
-        public IActionResult GetNumberOfMeasurementToday([FromRoute] int id)
+        public async Task<ActionResult> GetNumberOfMeasurementToday([FromRoute] int id)
         {
-            var _numberOfMeasurementToday = _service.GetNumberOfMeasurementToday(id);
+            var _numberOfMeasurementToday = await _service.GetNumberOfMeasurementToday(id);
             return Ok(_numberOfMeasurementToday);
         }
     }

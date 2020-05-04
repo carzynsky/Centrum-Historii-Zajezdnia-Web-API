@@ -21,9 +21,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// Metoda zwraca wszystkie pomiary
         /// </summary>
         /// <returns></returns>
-        public List<Measurement> GetAll()
+        public async Task<List<Measurement>> GetAll()
         {
-            return UnitOfWork.MeasurementRepository.GetAllOfMeasurement();
+            return await UnitOfWork.MeasurementRepository.GetAllOfMeasurement();
         }
 
         /// <summary>
@@ -31,23 +31,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<float> GetAverageTemperatureByEachMonth(int id)
+        public async Task<List<float>> GetAverageTemperatureByEachMonth(int id)
         {
-            var all = UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
-            float[,] table = new float[,] {
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0}
-            };
+            var all = await UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
+            float[,] table = new float[12,2];
 
             foreach(var item in all)
             {
@@ -71,23 +58,15 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             
         }
 
-        public List<float> GetAverageHumidityByEachMonth(int id)
+        /// <summary>
+        /// Funkcja zwracająca średnie temperatury z każdego miesiąca aktualnego roku dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<float>> GetAverageHumidityByEachMonth(int id)
         {
-            var all = UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
-            float[,] table = new float[,] {
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0},
-                {0,0}
-            };
+            var all = await UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
+            float[,] table = new float[12, 2];
 
             foreach (var item in all)
             {
@@ -110,29 +89,157 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             return myList;
         }
 
-        public List<float> GetAverageTemperatureLastWeek(int id)
+        /// <summary>
+        /// Funkcja zwracająca uśrednione pomiary temperatury z ostatniego tygodnia dla danego czujnika 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<float>> GetAverageTemperatureLastWeek(int id)
         {
-            throw new NotImplementedException();
+            var measurement = await UnitOfWork.MeasurementRepository.GetLastWeekMeasurement(id);
+            DateTime today = DateTime.Now;
+
+            float[,] tab = new float[8, 2];
+            int index;
+
+            foreach (var item in measurement)
+            {
+                var tmp = item.DateTime;
+                if(tmp.Day == today.AddDays(-7).Day)
+                {
+                    index = 0;
+                }
+                else if (tmp.Day == today.AddDays(-6).Day)
+                {
+                    index = 1;
+                }
+                else if (tmp.Day == today.AddDays(-5).Day)
+                {
+                    index = 2;
+                }
+                else if (tmp.Day == today.AddDays(-4).Day)
+                {
+                    index = 3;
+                }
+                else if (tmp.Day == today.AddDays(-3).Day)
+                {
+                    index = 4;
+                }
+                else if (tmp.Day == today.AddDays(-2).Day)
+                {
+                    index = 5;
+                }
+                else if (tmp.Day == today.AddDays(-1).Day)
+                {
+                    index = 6;
+                }
+                else
+                {
+                    index = 7;
+                }
+
+                tab[index, 0] += item.Temperature;
+                tab[index, 1] += 1;
+            }
+
+            List<float> myList = new List<float>();
+
+            for (int i = 0; i < tab.GetLength(0); i++)
+            {
+                if (tab[i, 1] != 0)
+                {
+                    myList.Add((tab[i, 0] / tab[i, 1]));
+                }
+                else
+                {
+                    myList.Add(tab[i, 0]);
+                }
+            }
+            return myList;
         }
 
-        public List<float> GetAverageHumidityLastWeek(int id)
+        /// <summary>
+        /// Funkcja zwaracająca uśrednione pomiary wilgotności powietrza z ostatniego tygodnia dla danego czujnika
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<float>> GetAverageHumidityLastWeek(int id)
         {
-            throw new NotImplementedException();
+            var measurement = await UnitOfWork.MeasurementRepository.GetLastWeekMeasurement(id);
+            DateTime today = DateTime.Now;
+
+            float[,] tab = new float[8, 2];
+            int index;
+
+            foreach (var item in measurement)
+            {
+                var tmp = item.DateTime;
+                if (tmp.Day == today.AddDays(-7).Day)
+                {
+                    index = 0;
+                }
+                else if (tmp.Day == today.AddDays(-6).Day)
+                {
+                    index = 1;
+                }
+                else if (tmp.Day == today.AddDays(-5).Day)
+                {
+                    index = 2;
+                }
+                else if (tmp.Day == today.AddDays(-4).Day)
+                {
+                    index = 3;
+                }
+                else if (tmp.Day == today.AddDays(-3).Day)
+                {
+                    index = 4;
+                }
+                else if (tmp.Day == today.AddDays(-2).Day)
+                {
+                    index = 5;
+                }
+                else if (tmp.Day == today.AddDays(-1).Day)
+                {
+                    index = 6;
+                }
+                else
+                {
+                    index = 7;
+                }
+
+                tab[index, 0] += item.Humidity;
+                tab[index, 1] += 1;
+            }
+
+            List<float> myList = new List<float>();
+
+            for (int i = 0; i < tab.GetLength(0); i++)
+            {
+                if (tab[i, 1] != 0)
+                {
+                    myList.Add((tab[i, 0] / tab[i, 1]));
+                }
+                else
+                {
+                    myList.Add(tab[i, 0]);
+                }
+            }
+            return myList;
         }
 
-        public int GetNumberOfAllMeasurement(int id)
+        public async Task<int> GetNumberOfAllMeasurement(int id)
         {
-            return UnitOfWork.MeasurementRepository.GetNumberOfAllMeasurement(id);
+            return await UnitOfWork.MeasurementRepository.GetNumberOfAllMeasurement(id);
         }
 
-        public int GetNumberOfMeasurementThisMonth(int id)
+        public async Task<int> GetNumberOfMeasurementThisMonth(int id)
         {
-            return UnitOfWork.MeasurementRepository.GetNumberOfMeasurementThisMonth(id);
+            return await UnitOfWork.MeasurementRepository.GetNumberOfMeasurementThisMonth(id);
         }
 
-        public int GetNumberOfMeasurementToday(int id)
+        public async Task<int> GetNumberOfMeasurementToday(int id)
         {
-            return UnitOfWork.MeasurementRepository.GetNumberOfMeasurementToday(id);
+            return await UnitOfWork.MeasurementRepository.GetNumberOfMeasurementToday(id);
         }
 
         /// <summary>
@@ -140,9 +247,122 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<Measurement> GetAll(int id)
+        public async Task<List<Measurement>> GetAll(int id)
         {
-            return UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
+            var measurement = await UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
+            return measurement;
+        }
+
+        /// <summary>
+        /// Metoda zwraca średnie pomiary temperatury dla ostatnich pięciu lat dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<float>> GetAverageTemperatureLastYears(int id)
+        {
+            var measurement = await UnitOfWork.MeasurementRepository.GetLastFiveYearsMeasurement(id);
+            float [,] tab = new float[5, 2];
+            var today = DateTime.Now;
+            int index=0;
+
+            foreach(var item in measurement)
+            {
+                var tmp = item.DateTime;
+
+                if(tmp.Year == today.AddYears(-4).Year)
+                {
+                    index = 0;
+                }
+                if (tmp.Year == today.AddYears(-3).Year)
+                {
+                    index = 1;
+                }
+                if (tmp.Year == today.AddYears(-2).Year)
+                {
+                    index = 2;
+                }
+                if (tmp.Year == today.AddYears(-1).Year)
+                {
+                    index = 3;
+                }
+                if (tmp.Year == today.Year)
+                {
+                    index = 4;
+                }
+                tab[index, 0] += item.Temperature;
+                tab[index, 1] += 1;
+            }
+
+            List<float> myList = new List<float>();
+
+            for (int i = 0; i < tab.GetLength(0); i++)
+            {
+                if (tab[i, 1] != 0)
+                {
+                    myList.Add((tab[i, 0] / tab[i, 1]));
+                }
+                else
+                {
+                    myList.Add(tab[i, 0]);
+                }
+            }
+            return myList;
+        }
+
+        /// <summary>
+        /// Funkcja zwraca średnie pomiary wilgotności powietrza dla ostatnich 5 lat dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<float>> GetAverageHumidityLastYears(int id)
+        {
+            var measurement = await UnitOfWork.MeasurementRepository.GetLastFiveYearsMeasurement(id);
+            float[,] tab = new float[5, 2];
+            var today = DateTime.Now;
+            int index = 0;
+
+            foreach (var item in measurement)
+            {
+                var tmp = item.DateTime;
+
+                if (tmp.Year == today.AddYears(-4).Year)
+                {
+                    index = 0;
+                }
+                if (tmp.Year == today.AddYears(-3).Year)
+                {
+                    index = 1;
+                }
+                if (tmp.Year == today.AddYears(-2).Year)
+                {
+                    index = 2;
+                }
+                if (tmp.Year == today.AddYears(-1).Year)
+                {
+                    index = 3;
+                }
+                if (tmp.Year == today.Year)
+                {
+                    index = 4;
+                }
+                tab[index, 0] += item.Humidity;
+                tab[index, 1] += 1;
+            }
+
+            List<float> myList = new List<float>();
+
+            for (int i = 0; i < tab.GetLength(0); i++)
+            {
+                if (tab[i, 1] != 0)
+                {
+                    myList.Add((tab[i, 0] / tab[i, 1]));
+                }
+                else
+                {
+                    myList.Add(tab[i, 0]);
+                }
+            }
+            return myList;
         }
     }
 }

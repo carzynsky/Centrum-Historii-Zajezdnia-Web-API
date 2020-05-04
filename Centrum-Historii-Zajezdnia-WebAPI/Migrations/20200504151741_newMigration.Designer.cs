@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
 {
     [DbContext(typeof(MonitoringContext))]
-    [Migration("20200426130216_newMigration")]
+    [Migration("20200504151741_newMigration")]
     partial class newMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,11 +83,20 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ExternalIp")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IpAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Left")
+                        .HasColumnType("int");
+
                     b.Property<string>("SensorName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Top")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

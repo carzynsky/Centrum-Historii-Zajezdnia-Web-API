@@ -8,9 +8,12 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
 {
     public interface IMeasurementRepository
     {
-        List<Measurement> GetAllMeasurement(int id);
-        int GetNumberOfAllMeasurement(int id);
-        int GetNumberOfMeasurementThisMonth(int id);
-        int GetNumberOfMeasurementToday(int id);
+        Task<List<Measurement>> GetAllMeasurement(int id);
+        Task<List<Measurement>> GetAllOfMeasurement();
+        Task<List<Measurement>> GetLastWeekMeasurement(int id);
+        Task<List<Measurement>> GetLastFiveYearsMeasurement(int id);
+        Task<int> GetNumberOfAllMeasurement(int id);
+        Task<int> GetNumberOfMeasurementThisMonth(int id);
+        Task<int> GetNumberOfMeasurementToday(int id);
     }
 }

@@ -81,11 +81,20 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ExternalIp")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IpAddress")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Left")
+                        .HasColumnType("int");
+
                     b.Property<string>("SensorName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Top")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

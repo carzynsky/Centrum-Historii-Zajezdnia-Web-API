@@ -16,30 +16,42 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Repositories
             _context = context;
         }
 
-        public List<Measurement> GetAllOfMeasurement()
+        public async Task<List<Measurement>> GetAllOfMeasurement()
         {
-            return _context.Measurement.Include(s => s.Sensors).ToList();
-        }
-        public List<Measurement> GetAllMeasurement(int id)
-        {
-            return _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime.Year.Equals(2020)).Include(s => s.Sensors).ToList();
+            return await _context.Measurement.Include(s => s.Sensors).ToListAsync();
         }
 
-        public int GetNumberOfAllMeasurement(int id)
+        public async Task<List<Measurement>> GetAllMeasurement(int id)
         {
-            return _context.Measurement.Where(x => x.SensorId.Equals(id)).Count();
+            DateTime newDate = DateTime.Now;
+            return await _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime.Year.Equals(newDate.Year)).Include(s => s.Sensors).ToListAsync();
         }
 
-        public int GetNumberOfMeasurementThisMonth(int id)
+        public async Task<int> GetNumberOfAllMeasurement(int id)
         {
-            return _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime.Month.Equals(DateTime.Now.Month) && x.DateTime.Year.Equals(DateTime.Now.Year)).Count();
+            return await _context.Measurement.Where(x => x.SensorId.Equals(id)).CountAsync();
         }
 
-        public int GetNumberOfMeasurementToday(int id)
+        public async Task<int> GetNumberOfMeasurementThisMonth(int id)
         {
-            return _context.Measurement.Where(x => x.SensorId.Equals(id) &&  x.DateTime.Month.Equals(DateTime.Now.Month) && x.DateTime.Year.Equals(DateTime.Now.Year)
-                && x.DateTime.Day.Equals(DateTime.Now.Day)).Count();
+            return await _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime.Month.Equals(DateTime.Now.Month) && x.DateTime.Year.Equals(DateTime.Now.Year)).CountAsync();
+        }
 
+        public async Task<int> GetNumberOfMeasurementToday(int id)
+        {
+            return await _context.Measurement.Where(x => x.SensorId.Equals(id) &&  x.DateTime.Month.Equals(DateTime.Now.Month) && x.DateTime.Year.Equals(DateTime.Now.Year)
+                && x.DateTime.Day.Equals(DateTime.Now.Day)).CountAsync();
+
+        }
+
+        public async Task<List<Measurement>> GetLastWeekMeasurement(int id)
+        {
+            return await _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime >= DateTime.Now.AddDays(-7)).Include(s => s.Sensors).ToListAsync();
+        }
+
+        public async Task<List<Measurement>> GetLastFiveYearsMeasurement(int id)
+        {
+            return await _context.Measurement.Where(x => x.SensorId.Equals(id) && x.DateTime >= DateTime.Now.AddYears(-4)).Include(s => s.Sensors).ToListAsync();
         }
     }
 }

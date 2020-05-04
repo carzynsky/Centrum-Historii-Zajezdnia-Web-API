@@ -128,6 +128,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
                         {
                             return new Response { Status = "Success", Message = "Logged Successfully", Function = "admin" };
                         }
+                    case "technician":
+                        {
+                            return new Response { Status = "Success", Message = "Logged Successfully", Function = "technician" };
+                        }
                     case "employee":
                     default:
                         {
