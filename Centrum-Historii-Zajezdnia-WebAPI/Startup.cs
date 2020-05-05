@@ -38,6 +38,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
             services.AddTransient<ILoginHistoryService, LoginHistoryService>();
             services.AddControllers();
 
+            services.AddRouting(r => r.SuppressCheckForUnhandledSecurityMetadata = true);
+
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
@@ -46,6 +48,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
                 options.AddPolicy("AllowMyOrigin",
                 builder => builder.WithOrigins("http://localhost:3000", "https://carzynsky.github.io").AllowAnyHeader().AllowAnyMethod());
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
