@@ -364,5 +364,105 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             }
             return myList;
         }
+
+        /// <summary>
+        /// Funkcja zwraca informacje o ostatnich pomiarach dla wszystkich czujników w bazie
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<SensorInfo>> GetLastMeasurement()
+        {
+            List<SensorInfo> sensorsList = new List<SensorInfo>();
+            var today = DateTime.Now;
+            var sensors = await UnitOfWork.SensorsRepository.GetAll();
+            foreach(var sensor in sensors)
+            {
+                var measurement = await UnitOfWork.MeasurementRepository.GetAllMeasurement(sensor.Id);
+                if(measurement.Count != 0)
+                {
+                    var lastMeasurement = measurement[measurement.Count - 1];
+                    TimeSpan ts = today - lastMeasurement.DateTime;
+                    int difference = Convert.ToInt32(ts.TotalMinutes);
+                    string _info;
+
+                    if(difference <= 2)
+                    {
+                        _info = "Pomiar wykonywany prawidłowo";
+                    }
+                    else
+                    {
+                        _info = "Zbyt długa przerwa między pomiarami!";
+                    }
+
+                    sensorsList.Add(new SensorInfo
+                    {
+                        Id = sensor.Id,
+                        SensorName = sensor.SensorName,
+                        Info = _info,
+                        Temperature = lastMeasurement.Temperature,
+                        Humidity = lastMeasurement.Humidity,
+                        DateTime = lastMeasurement.DateTime,
+                        MinutesAgo = difference
+                    });
+                }
+                else
+                {
+                    sensorsList.Add(new SensorInfo
+                    {
+                        Id = sensor.Id,
+                        SensorName = sensor.SensorName,
+                        Info = "Brak pomiarów!",
+                    });
+                }
+            }
+            return sensorsList;
+        }
+
+        /// <summary>
+        /// Funkcja zwraca informacje o pomiarach dla czujnika o podanym id, które są niezbędne do raportu rocznego
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<float>> GetInformationForReport(int id)
+        {
+            var _thisYearMeasurement = await UnitOfWork.MeasurementRepository.GetAllMeasurement(id);
+            List<float> list = new List<float>();
+
+            if(_thisYearMeasurement.Count != 0)
+            {
+                float minTemperature = 9999;
+                float minHumidity = 9999;
+                float maxTemperature = 0;
+                float maxHumidity = 0;
+
+                foreach(var m in _thisYearMeasurement)
+                {
+                    if (m.Temperature < minTemperature)
+                    {
+                        minTemperature = m.Temperature;
+                    }
+                    if (m.Humidity < minHumidity)
+                    {
+                        minHumidity = m.Humidity;
+                    }                        
+                    if(m.Temperature > maxTemperature)
+                    {
+                        maxTemperature = m.Temperature;
+                    }
+                    if(m.Humidity > maxHumidity)
+                    {
+                        maxHumidity = m.Humidity;
+                    }
+
+                }
+                list.Add(maxTemperature);
+                list.Add(minTemperature);
+                list.Add(maxTemperature - minTemperature);
+                list.Add(maxHumidity);
+                list.Add(minHumidity);
+                list.Add(maxHumidity - minHumidity);             
+            }
+            return list;
+
+        }
     }
 }

@@ -161,5 +161,30 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
             var _numberOfMeasurementToday = await _service.GetNumberOfMeasurementToday(id);
             return Ok(_numberOfMeasurementToday);
         }
+
+        /// <summary>
+        /// Pobranie informacji o ostatnich pomiarach dla wszystkich czujników
+        /// </summary>
+        /// <returns></returns>
+        [Route("last")]
+        [HttpGet]
+        public async Task<ActionResult<SensorInfo>> GetLastMeasurement()
+        {
+            var _last = await _service.GetLastMeasurement();
+            return Ok(_last);
+        }
+
+        /// <summary>
+        /// Pobranie informacji p pomiarach do rocznego raportu dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Route("{id:int}/report")]
+        [HttpGet]
+        public async Task<ActionResult<List<float>>> GetInformationForReport([FromRoute] int id)
+        {
+            var _info = await _service.GetInformationForReport(id);
+            return Ok(_info);
+        }
     }
 }
