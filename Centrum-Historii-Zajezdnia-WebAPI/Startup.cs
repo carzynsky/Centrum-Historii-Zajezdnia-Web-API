@@ -29,7 +29,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Server=DESKTOP-U4VRK31;Database=Monitoring;Trusted_Connection=True;";
+            var serverName = ServerConnection.ServerName;
+            var connection = @"Server=" + serverName + ";Database=Monitoring;Trusted_Connection=True;";
             services.AddDbContext<MonitoringContext>(options => options.UseSqlServer(connection));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IUsersService, UsersService>();

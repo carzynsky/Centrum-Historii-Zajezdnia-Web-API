@@ -13,6 +13,9 @@ namespace Centrum_Historii_Zajezdnia_WebAPI
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("Podaj nazwê serwera: ");
+            ServerConnection.ServerName = Console.ReadLine();
+
             CreateHostBuilder(args).Build().Run();
         }
 
