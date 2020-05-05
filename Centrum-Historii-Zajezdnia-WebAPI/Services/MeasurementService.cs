@@ -227,16 +227,31 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             return myList;
         }
 
+        /// <summary>
+        /// Funkcja zwracająca liczbę wszystkich pomiarów dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<int> GetNumberOfAllMeasurement(int id)
         {
             return await UnitOfWork.MeasurementRepository.GetNumberOfAllMeasurement(id);
         }
 
+        /// <summary>
+        /// Funkcja zwracająca liczbę wszystkich pomiaró wykonanych w aktualnym miesiącu dla czujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<int> GetNumberOfMeasurementThisMonth(int id)
         {
             return await UnitOfWork.MeasurementRepository.GetNumberOfMeasurementThisMonth(id);
         }
 
+        /// <summary>
+        /// Funkcja zwracająca liczbę wszystkich pomiarów wykonanych dzisiaj dla cujnika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<int> GetNumberOfMeasurementToday(int id)
         {
             return await UnitOfWork.MeasurementRepository.GetNumberOfMeasurementToday(id);

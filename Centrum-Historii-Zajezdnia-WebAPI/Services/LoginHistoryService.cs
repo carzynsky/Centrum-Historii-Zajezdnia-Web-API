@@ -15,6 +15,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             UnitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Funkcja usuwająca wszystkie rekordy historii logowań
+        /// </summary>
+        /// <returns></returns>
         public async Task DeleteHistory()
         {
             var history = await UnitOfWork.LoginHistoryRepository.GetAll();
@@ -33,6 +37,11 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             return await UnitOfWork.LoginHistoryRepository.GetAllWithUsers();
         }
 
+        /// <summary>
+        /// Funkcja zwracająca historię logowań dla użytkownika o podanym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<List<LoginHistory>> GetByUserId(int id)
         {
             return await UnitOfWork.LoginHistoryRepository.GetByUserId(id);

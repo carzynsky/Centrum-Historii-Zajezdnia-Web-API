@@ -104,6 +104,11 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             }
         }
 
+        /// <summary>
+        /// Logowanie użytkownika
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task<Response> UserSignin(Users user)
         {
             var login = await UnitOfWork.UsersRepository.FindUserByLoginAndPassword(user);
