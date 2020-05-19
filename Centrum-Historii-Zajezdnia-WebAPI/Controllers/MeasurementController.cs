@@ -186,5 +186,17 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
             var _info = await _service.GetInformationForReport(id);
             return Ok(_info);
         }
+
+        /// <summary>
+        /// Wysłanie alertu mail
+        /// </summary>
+        /// <returns></returns>
+        [Route("alert")]
+        [HttpPost]
+        public async Task<ActionResult> SendAlert([FromBody] Measurement measurement)
+        {
+            _service.SendEmail(measurement);
+            return Ok();
+        }
     }
 }

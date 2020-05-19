@@ -65,7 +65,10 @@ F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\
 F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Logging.dll
 F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Tokens.dll
 F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\System.IdentityModel.Tokens.Jwt.dll
-F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\obj\Debug\netcoreapp3.0\Centrum-Historii-Zajezdnia-WebAPI.MvcApplicationPartsAssemblyInfo.cache
 F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Protocols.dll
 F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\MailKit.dll
+F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\MimeKit.dll
+F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\bin\Debug\netcoreapp3.0\BouncyCastle.Crypto.dll
+F:\Studia\STUDIA VI SEMESTR\Projekt-Zespolowy\Centrum-Historii-Zajezdnia-WebAPI\Centrum-Historii-Zajezdnia-WebAPI\obj\Debug\netcoreapp3.0\Centrum-Historii-Zajezdnia-WebAPI.MvcApplicationPartsAssemblyInfo.cache

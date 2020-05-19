@@ -6,6 +6,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
 
 namespace Centrum_Historii_Zajezdnia_WebAPI.Services
 {
@@ -478,6 +481,37 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
             }
             return list;
 
+        }
+
+        /// <summary>
+        /// Wysłanie alertu mail
+        /// </summary>
+        /// <param name="measurement"></param>
+        public async void SendEmail(Measurement measurement)
+        {
+            var sensor = await UnitOfWork.SensorsRepository.GetById(measurement.SensorId);
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("CHZ Team", "projektzespolowychz@gmail.com"));
+            message.To.Add(new MailboxAddress("Centrum Historii Zajezdnia", "carzynski1@gmail.com"));
+            message.Subject = $"Alert pomiarowy dla czujnika {sensor.SensorName}.";
+
+            // Body
+            message.Body = new TextPart("plain")
+            {
+                Text = $"Czujnik {sensor.SensorName} o identyfikatorze = {measurement.SensorId}, wykonał pomiar będący odchyleniem od normy. Odczytano następujące dane" +
+                $"\ntemperatura = {measurement.Temperature}°C , " +
+                $"\nwilgotność = {measurement.Humidity}%. " +
+                $"\nData wykonania pomiaru: {measurement.DateTime}."
+            };
+
+            // Configure and send email
+            using(var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("projektzespolowychz@gmail.com", "projekt1515");
+                client.Send(message);
+                client.Disconnect(true);
+            }
         }
     }
 }

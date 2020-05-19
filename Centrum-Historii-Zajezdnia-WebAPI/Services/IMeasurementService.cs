@@ -22,5 +22,6 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         Task<int> GetNumberOfMeasurementToday(int id);
         Task<List<SensorInfo>> GetLastMeasurement();
         Task<List<float>> GetInformationForReport(int id);
+        void SendEmail(Measurement measurement);
     }
 }
