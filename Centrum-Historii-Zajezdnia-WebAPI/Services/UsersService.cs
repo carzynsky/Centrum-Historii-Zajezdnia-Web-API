@@ -40,8 +40,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// <returns></returns>
         public async Task<bool> IsCreateSuccessfull(Users user)
         {
-            var alreadyCreated = false; // todo, assumed that newUser is not in db
-            if(alreadyCreated)
+            var alreadyCreated = await UnitOfWork.UsersRepository.FindUserByLogin(user.Login);
+            if(alreadyCreated != null)
             {
                 return false;
             }

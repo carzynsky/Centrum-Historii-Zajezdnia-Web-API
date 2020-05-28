@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+	<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+	<PublishSingleFile>true</PublishSingleFile>
     <RootNamespace>Centrum_Historii_Zajezdnia_WebAPI</RootNamespace>
   </PropertyGroup>
 

@@ -95,16 +95,16 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> CreateNewUser([FromBody] Users user)
+        public async Task<Response> CreateNewUser([FromBody] Users user)
         {
             var isCreated = await _service.IsCreateSuccessfull(user);
             if(isCreated)
             {
-                return Ok("Dodano użytkownika");
+                return new Response {Status="Success", Message="Dodano użytkownika!", Function=null} ;
             }
             else
             {
-                return Conflict("Nie można dodać użytkownika!");
+                return new Response { Status = "Error", Message = "Już istnieje uzytkownik o tym loginie!", Function = null };
             }
         }
 

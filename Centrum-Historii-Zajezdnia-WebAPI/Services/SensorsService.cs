@@ -87,7 +87,8 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
                     IpAddress = sensor.IpAddress,
                     ExternalIp = sensor.ExternalIp,
                     Top = sensor.Top,
-                    Left = sensor.Left
+                    Left = sensor.Left,
+                    AddedBy = sensor.AddedBy
                 };
                 await UnitOfWork.SensorsRepository.Create(newSensor);
                 await UnitOfWork.SensorsRepository.SaveAsync();
