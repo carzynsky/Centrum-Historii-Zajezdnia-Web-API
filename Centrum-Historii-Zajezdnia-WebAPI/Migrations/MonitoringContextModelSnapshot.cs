@@ -93,6 +93,18 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Migrations
                     b.Property<int>("Left")
                         .HasColumnType("int");
 
+                    b.Property<int>("MaxHumidity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxTemperature")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinHumidity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinTemperature")
+                        .HasColumnType("int");
+
                     b.Property<string>("SensorName")
                         .HasColumnType("nvarchar(max)");
 

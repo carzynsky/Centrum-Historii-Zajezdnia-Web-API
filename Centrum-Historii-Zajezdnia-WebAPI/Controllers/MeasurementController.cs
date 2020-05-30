@@ -195,7 +195,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> SendAlert([FromBody] Measurement measurement)
         {
-            _service.SendEmail(measurement);
+            await _service.SendEmail(measurement);
             return Ok();
         }
     }

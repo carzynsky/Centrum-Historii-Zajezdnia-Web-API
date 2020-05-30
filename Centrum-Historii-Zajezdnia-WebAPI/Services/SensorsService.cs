@@ -64,6 +64,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
                 sensorToEdit.ExternalIp = sensor.ExternalIp;
                 sensorToEdit.Top = sensor.Top;
                 sensorToEdit.Left = sensor.Left;
+                sensorToEdit.MinTemperature = sensor.MinTemperature;
+                sensorToEdit.MaxTemperature = sensor.MaxTemperature;
+                sensorToEdit.MinHumidity = sensor.MinHumidity;
+                sensorToEdit.MaxHumidity = sensor.MaxHumidity;
                 UnitOfWork.SensorsRepository.Update(sensorToEdit);
                 await UnitOfWork.SensorsRepository.SaveAsync();
                 return true;
@@ -88,7 +92,11 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
                     ExternalIp = sensor.ExternalIp,
                     Top = sensor.Top,
                     Left = sensor.Left,
-                    AddedBy = sensor.AddedBy
+                    AddedBy = sensor.AddedBy,
+                    MinTemperature = sensor.MinTemperature,
+                    MaxTemperature = sensor.MaxTemperature,
+                    MinHumidity = sensor.MinHumidity,
+                    MaxHumidity = sensor.MaxHumidity
                 };
                 await UnitOfWork.SensorsRepository.Create(newSensor);
                 await UnitOfWork.SensorsRepository.SaveAsync();

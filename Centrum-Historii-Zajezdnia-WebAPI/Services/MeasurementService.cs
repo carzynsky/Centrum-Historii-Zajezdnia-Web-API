@@ -487,7 +487,7 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Services
         /// Wysłanie alertu mail
         /// </summary>
         /// <param name="measurement"></param>
-        public async void SendEmail(Measurement measurement)
+        public async Task SendEmail(Measurement measurement)
         {
             var sensor = await UnitOfWork.SensorsRepository.GetById(measurement.SensorId);
             var message = new MimeMessage();

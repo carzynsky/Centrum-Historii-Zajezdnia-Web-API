@@ -16,6 +16,10 @@ namespace Centrum_Historii_Zajezdnia_WebAPI.Models
         public int Top { get; set; }
         public int Left { get; set; }
         public string AddedBy { get; set; }
+        public int MinTemperature { get; set; }
+        public int MaxTemperature { get; set; }
+        public int MinHumidity { get; set; }
+        public int MaxHumidity { get; set; }
         public List<Measurement> Measurement { get; set; }
     }
 }
